@@ -17,15 +17,16 @@ env:
 jobs:
   build:
     if: "! contains(github.event.commits[0].message, '[skip ci]')"
-    runs-on: ubuntu-20.04
-
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.6.7
+    
     steps:
       - uses: actions/checkout@v2
 
       - name: Bump Version
         run: |
-          pip3 install semversioner==0.6.16
-          ln -s $(which python3) /usr/local/bin/python
+          pip install semversioner==0.6.16
           ./ci-scripts/bump-version.sh
 
       - name: Log into registry
