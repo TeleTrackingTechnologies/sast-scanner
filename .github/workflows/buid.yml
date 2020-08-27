@@ -25,6 +25,7 @@ jobs:
       - name: Bump Version
         run: |
           pip3 install semversioner==0.6.16
+          ln -s $(which python3) $(which python)
           ./ci-scripts/bump-version.sh
 
       - name: Log into registry
