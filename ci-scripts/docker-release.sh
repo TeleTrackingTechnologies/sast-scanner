@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-IMAGE=$(echo $1 | tr [A-F] [a-f])
+IMAGE=$(echo $1 | tr [A-Z] [a-z])
 VERSION=$(semversioner current-version)
 
 docker build --target bb-pipe -t "${IMAGE}/bb-pipe:latest" -t "${IMAGE}/bb-pipe:${VERSION}" .
