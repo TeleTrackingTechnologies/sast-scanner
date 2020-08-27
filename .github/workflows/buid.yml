@@ -12,7 +12,7 @@ env:
   REGISTRY: docker.pkg.github.com
   DOCKER_USER: ${{ github.actor }}
   DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-  DOCKER_REPOSITORY: sast-scanner
+  DOCKER_REPOSITORY: ${{ github.repository }}
 
 jobs:
   build:
