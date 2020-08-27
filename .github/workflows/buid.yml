@@ -18,12 +18,15 @@ jobs:
   build:
     if: "! contains(github.event.commits[0].message, '[skip ci]')"
     runs-on: ubuntu-latest
-    container:
-      image: python:3.6.7
     
     steps:
       - uses: actions/checkout@v2
-
+      
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      
       - name: Bump Version
         run: |
           pip install semversioner==0.6.16
