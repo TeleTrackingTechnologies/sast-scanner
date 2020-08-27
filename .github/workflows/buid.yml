@@ -33,9 +33,9 @@ jobs:
           ./ci-scripts/bump-version.sh
 
       - name: Log into registry
-        run: echo "$DOCKER_PASSWORD" | docker login "$REGISTORY" -u $DOCKER_USER --password-stdin
+        run: echo "${DOCKER_PASSWORD}" | docker login "${REGISTRY}" -u $DOCKER_USER --password-stdin
 
       - name: Push image
         run: |
-          ./ci-scripts/docker-release.sh "$REGISTORY/$DOCKER_REPOSITORY"
+          ./ci-scripts/docker-release.sh "${REGISTORY}/${DOCKER_REPOSITORY}"
           ./ci-scripts/git-push.sh
