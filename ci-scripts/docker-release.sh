@@ -12,5 +12,5 @@ docker build --target cci-orb -t "${IMAGE}/cci-orb:latest" -t "${IMAGE}/cci-orb:
 docker push "${IMAGE}/bb-pipe:latest"
 docker push "${IMAGE}/bb-pipe:${VERSION}"
 
-docker push "${IMAGE}/cci-pipe:latest"
-docker push "${IMAGE}/cci-pipe:${VERSION}"
+docker push "${IMAGE}/cci-orb:latest"
+docker push "${IMAGE}/cci-orb:${VERSION}"
