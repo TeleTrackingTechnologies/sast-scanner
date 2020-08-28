@@ -8,6 +8,9 @@ set -ex
 # Tag and push
 tag=$(semversioner current-version)
 
+git config --local user.email "info@teletracking.com"
+git config --local user.name "CI Build"
+
 # Commit
 git add .
 git commit -m "Update files for new version '${tag}' [skip ci]"
@@ -15,4 +18,4 @@ git push origin master
 
 # Tag
 git tag -a -m "Tagging for release ${tag}" "${tag}"
-git push origin ${tag}
+git push origin master
