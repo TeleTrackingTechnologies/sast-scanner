@@ -36,6 +36,14 @@ jobs:
         run: echo "${DOCKER_PASSWORD}" | docker login "${REGISTRY}" -u $DOCKER_USER --password-stdin
 
       - name: Push image
+        env:
+          BRANCH: ${{ github.ref }}
         run: |
           ./ci-scripts/docker-release.sh "${REGISTRY}/${DOCKER_REPOSITORY}"
           ./ci-scripts/git-push.sh
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: true
