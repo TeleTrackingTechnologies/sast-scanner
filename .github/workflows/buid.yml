@@ -5,9 +5,8 @@ on:
   pull_request:
 
 env:
-  REGISTRY: docker.pkg.github.com
-  DOCKER_USER: ${{ github.actor }}
-  DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+  DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKER_REPOSITORY: ${{ github.repository }}
 
 jobs:
