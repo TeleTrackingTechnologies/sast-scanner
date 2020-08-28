@@ -1,0 +1,54 @@
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+env:
+  DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKER_REPOSITORY: ${{ github.repository }}
+
+jobs:
+  build:
+    if: "! contains(github.event.commits[0].message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      
+      - name: Bump Version
+        run: |
+          pip install semversioner==0.6.16
+          ./ci-scripts/bump-version.sh
+
+      - name: Log into registry
+        run: echo "${DOCKER_PASSWORD}" | docker login -u $DOCKER_USER --password-stdin
+
+      - name: Build images
+        run: |
+          ./ci-scripts/docker-build.sh "${DOCKER_REPOSITORY}"
+          ./ci-scripts/git-tag.sh
+
+  release:
+    if: "contains(github.ref, 'master')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Push Images
+        run: ./ci-scripts/release.sh
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+          tags: true
