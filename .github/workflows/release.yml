@@ -8,9 +8,9 @@ on:
 
 env:
   REGISTRY: 
-  DOCKER_USER: ${{ github.actor }}
+  DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_REPOSITORY: ${{ github.repository }}
 
 jobs:
   build:
