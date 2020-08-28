@@ -7,7 +7,7 @@ on:
       - master
 
 env:
-  REGISTRY: 
+  REGISTRY: "registry-1.docker.io"
   DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKER_REPOSITORY: ${{ github.repository }}
