@@ -2,10 +2,6 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
-
   pull_request:
 
 env:
@@ -22,28 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-      
-      - name: Bump Version
+      - name: Build image
         run: |
-          pip install semversioner==0.6.16
-          ./ci-scripts/bump-version.sh
-
-      - name: Log into registry
-        run: echo "${DOCKER_PASSWORD}" | docker login "${REGISTRY}" -u $DOCKER_USER --password-stdin
-
-      - name: Push image
-        env:
-          BRANCH: ${{ github.ref }}
-        run: |
-          ./ci-scripts/docker-release.sh "${REGISTRY}/${DOCKER_REPOSITORY}"
-          ./ci-scripts/git-push.sh
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.event.pull_request.head.ref }}
-          tags: true
+          docker build .
