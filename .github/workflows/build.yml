@@ -1,13 +1,13 @@
 ---
-name: Release
+name: CI
 
 on:
+  pull_request:
   push:
     branches:
       - master
 
 env:
-  REGISTRY: "registry-1.docker.io"
   DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKER_REPOSITORY: ${{ github.repository }}
@@ -31,14 +31,23 @@ jobs:
           ./ci-scripts/bump-version.sh
 
       - name: Log into registry
-        run: echo "${DOCKER_PASSWORD}" | docker login "${REGISTRY}" -u $DOCKER_USER --password-stdin
+        run: echo "${DOCKER_PASSWORD}" | docker login -u $DOCKER_USER --password-stdin
 
-      - name: Push image
-        env:
-          BRANCH: ${{ github.ref }}
+      - name: Build images
         run: |
-          ./ci-scripts/docker-release.sh "${REGISTRY}/${DOCKER_REPOSITORY}"
-          ./ci-scripts/git-push.sh
+          ./ci-scripts/docker-build.sh "${DOCKER_REPOSITORY}"
+          ./ci-scripts/git-tag.sh
+
+  release:
+    if: "contains(github.ref, 'master')"
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - name: Push Images
+        run: ./ci-scripts/release.sh
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:

@@ -1,0 +1,4 @@
+{
+  "type": "patch",
+  "description": "Updating the github action for better tagging and pushing to docker hub"
+}
