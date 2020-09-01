@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Push Images
-        run: ./ci-scripts/release.sh
+        run: ./ci-scripts/release.sh "${DOCKER_REPOSITORY}"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
