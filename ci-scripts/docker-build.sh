@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-IMAGE=$(echo $1 | tr [A-Z] [a-z])
+IMAGE="teletracking/$(echo $1 | tr [A-Z] [a-z] | xargs basename)"
 VERSION=$(semversioner current-version)
 
 docker build --target bb-pipe -t "teletracking/${IMAGE}/bb-pipe:latest" -t "teletracking/${IMAGE}/bb-pipe:${VERSION}" .
