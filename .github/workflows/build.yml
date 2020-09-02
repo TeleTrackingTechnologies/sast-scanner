@@ -47,6 +47,11 @@ jobs:
       - name: Log into registry
         run: echo "${DOCKER_PASSWORD}" | docker login -u $DOCKER_USER --password-stdin
 
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
       - name: Push Images
         run: |
           pip install semversioner==0.6.16
