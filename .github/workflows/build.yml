@@ -48,7 +48,9 @@ jobs:
         run: echo "${DOCKER_PASSWORD}" | docker login -u $DOCKER_USER --password-stdin
 
       - name: Push Images
-        run: ./ci-scripts/release.sh "${DOCKER_REPOSITORY}"
+        run: |
+          pip install semversioner==0.6.16
+          ./ci-scripts/release.sh "${DOCKER_REPOSITORY}"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
