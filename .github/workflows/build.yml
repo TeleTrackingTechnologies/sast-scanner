@@ -30,9 +30,6 @@ jobs:
           pip install semversioner==0.6.16
           ./ci-scripts/bump-version.sh
 
-      - name: Log into registry
-        run: echo "${DOCKER_PASSWORD}" | docker login -u $DOCKER_USER --password-stdin
-
       - name: Build images
         run: |
           ./ci-scripts/docker-build.sh "${DOCKER_REPOSITORY}"
@@ -47,8 +44,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Log into registry
+        run: echo "${DOCKER_PASSWORD}" | docker login -u $DOCKER_USER --password-stdin
+
       - name: Push Images
-        run: ./ci-scripts/release.sh
+        run: ./ci-scripts/release.sh "${DOCKER_REPOSITORY}"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
