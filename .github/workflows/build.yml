@@ -35,29 +35,17 @@ jobs:
           ./ci-scripts/docker-build.sh "${DOCKER_REPOSITORY}"
           ./ci-scripts/git-tag.sh
 
-  release:
-    if: "contains(github.ref, 'master')"
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
-      - uses: actions/checkout@v2
-
+      # master branch only
       - name: Log into registry
+        if: "contains(github.ref, 'master')"
         run: echo "${DOCKER_PASSWORD}" | docker login -u $DOCKER_USER --password-stdin
-
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-
+      
       - name: Push Images
-        run: |
-          pip install semversioner==0.6.16
-          ./ci-scripts/release.sh "${DOCKER_REPOSITORY}"
+        if: "contains(github.ref, 'master')"
+        run: ./ci-scripts/release.sh "${DOCKER_REPOSITORY}"
 
       - name: Push changes
+        if: "contains(github.ref, 'master')"
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
