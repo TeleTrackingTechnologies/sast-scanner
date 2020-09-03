@@ -1,0 +1,10 @@
+[
+  {
+    "description": "Updating the github action for better tagging and pushing to docker hub",
+    "type": "patch"
+  },
+  {
+    "description": "First version",
+    "type": "patch"
+  }
+]
