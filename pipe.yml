@@ -1,0 +1,22 @@
+name: SAST Pipe
+image: teletracking/sast-scanner-cci-orb:0.0.1
+category: Utilities
+description: A BitBucket pipe that encapsulates static analisys of code for quality metrics
+variables:
+  - name: PROVIDER
+    default: '${PROVIDER}'
+  - name: SONAR_TOKEN
+    default: '${SONAR_TOKEN}'
+repository: https://bitbucket.org/atlassian/demo-pipe-bash
+maintainer:
+  name: TeleTracking
+  website: https://teletracking.com/
+  email: info@teletracking.com
+vendor:
+  name: TeleTracking
+  website: https://teletracking.com/
+  email: info@teletracking.com
+tags:
+  - code analysis
+  - code quality
+  - code coverage
